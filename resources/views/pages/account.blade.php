@@ -59,7 +59,7 @@
                     $statusMap = [
                         'pending' => 'Chưa xử lý',
                         'processing' => 'Đang xử lý',
-                        'shipping' => 'Đang giao hàng',
+                        'shipped' => 'Đang giao hàng',
                         'completed' => 'Đã hoàn thành',
                         'cancelled' => 'Đã hủy',
                     ];

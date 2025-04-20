@@ -4,9 +4,9 @@
     @php
         use App\Http\Controllers\OrderController;
     @endphp
-    <div class="container_order_can">
+    <div class="container_order_pen">
     <div class="title">
-            <h1>Đơn hàng đã hủy</h1>
+            <h1>Đơn hàng chưa xử lý</h1>
             <h3>danh sách</h3>
         </div>
         @if (session('success'))
@@ -39,8 +39,9 @@
                     <th>Tổng tiền</th>
                     <th>Địa chỉ</th>
                     <th>Trạng thái</th>
+                    <th>Thanh toán</th>
+                    <th>Trạng thái thanh toán</th>
                     <th>Hành động</th>
-                    <th>Xóa</th>
                 </tr>
             </thead>
             <tbody>
@@ -54,9 +55,9 @@
                         <td>{{ $order->shipping_address }}</td>
                         <td>
                             <form action="{{ route('updateOrderStatus', $order->id) }}" method="POST">
-                                @csrf
-                                @method('PUT')
-                                <select name="status">
+                            @csrf
+                            @method('PUT')
+                                <select name="status" onchange="this.form.submit()">
                                     @foreach (OrderController::getAvailableStatusStatic($order->status) as $status)
                                         <option value="{{ $status }}" {{ $status == $order->status ? 'selected' : '' }}>
                                             {{ $statusMap[$status] ?? ucfirst($status) }}
@@ -66,11 +67,11 @@
                                 <button type="submit">Cập nhật</button>
                             </form>
                         </td>
+
+                        <td>{{ $order->payment_method }}</td>
+                        <td>{{ $order->payment_status }}</td>
                         <td>
                             <a href="{{ route('getOrderDetails', ['id'=>$order->id]) }}">Xem chi tiết</a>
-                        </td>
-                        <td>
-                            <a href="{{ route('delOrder', ['id'=>$order->id]) }}" onclick="return confirm('Bạn có chắc muốn xoá danh mục này không?')"><i class="fa-solid fa-trash"></i></a>
                         </td>
                     </tr>
                 @endforeach

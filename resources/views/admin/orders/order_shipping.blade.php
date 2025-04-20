@@ -4,9 +4,9 @@
     @php
         use App\Http\Controllers\OrderController;
     @endphp
-    <div class="container_order_can">
+    <div class="container_order_ship">
     <div class="title">
-            <h1>Đơn hàng đã hủy</h1>
+            <h1>Đơn hàng đang giao</h1>
             <h3>danh sách</h3>
         </div>
         @if (session('success'))
@@ -39,6 +39,7 @@
                     <th>Tổng tiền</th>
                     <th>Địa chỉ</th>
                     <th>Trạng thái</th>
+                    <th>Thanh toán</th>
                     <th>Hành động</th>
                     <th>Xóa</th>
                 </tr>
@@ -66,6 +67,7 @@
                                 <button type="submit">Cập nhật</button>
                             </form>
                         </td>
+                        <td>{{ $order->payment_method }}</td>
                         <td>
                             <a href="{{ route('getOrderDetails', ['id'=>$order->id]) }}">Xem chi tiết</a>
                         </td>

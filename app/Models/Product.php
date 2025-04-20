@@ -32,4 +32,10 @@ class Product extends Model
     public function comments_pro(){
         return $this->hasMany(Comment::class, 'product_id', 'id');
     }
+
+    public function favoritedBy()
+    {
+        return $this->hasMany(Favorite::class, 'product_id', 'id');
+    }
+
 }

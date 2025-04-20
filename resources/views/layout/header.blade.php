@@ -40,9 +40,8 @@
         </div>
         <div class="container_h_f">
             <a href="{{ route('trangchu') }}" class="item active">Trang chủ</a>
-            <a href="#" class="item">Sản phẩm</a>
             <div class="dropdown">
-                <a href="#" class="item">Danh mục <i class="fa fa-caret-down"></i></a>
+                <a href="#" class="item">Danh mục</a>
                 <div class="dropdown-content">
                     @foreach($categories as $cate)
                         <a href="{{ route('search') }}?category_id={{ $cate->id }}">{{ $cate->name }}</a>

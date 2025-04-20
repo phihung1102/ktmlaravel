@@ -52,11 +52,20 @@
 
 @section('js')
     <script>
-        setTimeout(() => {
-            var success = document.getElementById('success');
-            var error = document.getElementById('error');
-            if(success) success.style.display = 'none';
-            if(error) error.style.display = 'none';
-        }, 4000);
+        document.addEventListener("DOMContentLoaded", function(){
+            setTimeout(() => {
+                var success = document.getElementById('success');
+                var error = document.getElementById('error');
+                if(success) success.classList.remove('alert-show');
+                if(error) error.classList.remove('alert-show');
+            }, 4000);
+
+            if(document.getElementById('success')) {
+                document.getElementById('success').classList.add('alert-show');
+            }
+            if(document.getElementById('error')) {
+                document.getElementById('error').classList.add('alert-show');
+            }
+        });
     </script>
 @endsection

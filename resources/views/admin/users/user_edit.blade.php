@@ -12,29 +12,31 @@
                     <h3>sửa</h3>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
                 </div>
                 <div class="box">
-                    <label>Tên tài khoản:</label>
-                    <input type="text" name="name" value="{{ old('username', $user->username) }}">
+                    <label for="username">Tên tài khoản:</label>
+                    <input type="text" id="username" name="name" value="{{ old('username', $user->username) }}" placeholder="Nhập tên tài khoản">
                 </div>
                 <div class="box">
-                    <label>Vai trò:</label>
-                    <select name="role">
+                    <label for="role">Vai trò:</label>
+                    <select id="role" name="role">
                         <option value="2" {{ old('role', $user->role) == 2 ? 'selected' : '' }}>Kỹ thuật viên</option>
                         <option value="3" {{ old('role', $user->role) == 3 ? 'selected' : '' }}>Khách hàng</option>
                     </select>
                 </div>
+
                 <!-- Thông báo lỗi -->
                 @if ($errors->any())
-                    <div class="alert-danger" style="color: red; margin: 5px auto; font-size: 15px;">
-                        <ul style="display: flex; flex-direction: column; gap: 5px; list-style: none;">
+                    <div class="alert-danger">
+                        <ul>
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
                             @endforeach
                         </ul>
                     </div>
                 @endif
+                
                 <div class="btns">
-                    <input type="submit" name="btnupdate" value="Sửa">
-                    <input type="reset" name="btnreset" value="Đặt lại">
+                    <button type="submit" class="btn-update">Sửa</button>
+                    <button type="reset" class="btn-reset">Đặt lại</button>
                 </div>
             </div>
         </form>

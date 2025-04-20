@@ -3,7 +3,7 @@
 @section('content')
     <div class="container_order_com">
     <div class="title">
-            <h1>Đơn hàng</h1>
+            <h1>Đơn hàng đã hoàn thành</h1>
             <h3>danh sách</h3>
         </div>
         @if (session('success'))
@@ -20,13 +20,13 @@
         @php
             $statusMap = [
                 'pending' => 'Chưa xử lý',
-                'processing' => 'Đang xử lý',
-                'shipping' => 'Đang giao hàng',
+                'processing' => 'Đã xử lý',
+                'shipped' => 'Đang giao hàng',
                 'completed' => 'Đã hoàn thành',
                 'cancelled' => 'Đã hủy',
             ];
         @endphp
-        <table>
+        <table class="styled-table">
             <thead>
                 <tr>
                     <th>STT</th>

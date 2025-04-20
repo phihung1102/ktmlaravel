@@ -1,9 +1,12 @@
 @extends('admin.master')
 
 @section('content')
+    @php
+        use App\Http\Controllers\OrderController;
+    @endphp
     <div class="container_order_l">
     <div class="title">
-            <h1>Đơn hàng</h1>
+            <h1>Đơn hàng đã xử lý</h1>
             <h3>danh sách</h3>
         </div>
         @if (session('success'))
@@ -20,13 +23,13 @@
         @php
             $statusMap = [
                 'pending' => 'Chưa xử lý',
-                'processing' => 'Đang xử lý',
-                'shipping' => 'Đang giao hàng',
+                'processing' => 'Đã xử lý',
+                'shipped' => 'Đang giao hàng',
                 'completed' => 'Đã hoàn thành',
                 'cancelled' => 'Đã hủy',
             ];
         @endphp
-        <table>
+        <table class="styled-table">
             <thead>
                 <tr>
                     <th>STT</th>
@@ -51,12 +54,20 @@
                         <td>{{ $order->total_amount }}</td>
                         <td>{{ $order->shipping_address }}</td>
                         <td>
-                            <select class="order-status" data-order-id="{{ $order->id }}">
-                                @foreach ($statusMap as $key => $label)
-                                    <option value="{{ $key }}" {{ $order->status == $key ? 'selected' : '' }}>{{ $label }}</option>
-                                @endforeach
-                            </select>
+                            <form action="{{ route('updateOrderStatus', $order->id) }}" method="POST">
+                                @csrf
+                                @method('PUT')
+                                <select name="status">
+                                    @foreach (OrderController::getAvailableStatusStatic($order->status) as $status)
+                                        <option value="{{ $status }}" {{ $status == $order->status ? 'selected' : '' }}>
+                                            {{ $statusMap[$status] ?? ucfirst($status) }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <button type="submit">Cập nhật</button>
+                            </form>
                         </td>
+
                         <td>{{ $order->payment_method }}</td>
                         <td>{{ $order->payment_status }}</td>
                         <td>
@@ -67,35 +78,4 @@
             </tbody>
         </table>
     </div>
-@endsection
-
-@section('js')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('.order-status').change(function () {
-                var orderId = $(this).data('order-id');
-                var status = $(this).val();
-
-                $.ajax({
-                    url: "{{ route('updateStatusOd') }}",
-                    method: "POST",
-                    data: {
-                        _token: '{{ csrf_token() }}',
-                        order_id: orderId,
-                        status: status
-                    },
-                    success: function (response) {
-                        if (response.success) {
-                            alert(response.message);
-                        }
-                    },
-                    error: function () {
-                        alert('');
-                    }
-                });
-            });
-        });
-    </script>
-
 @endsection

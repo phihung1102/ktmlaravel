@@ -7,15 +7,17 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Slide;
 use Illuminate\Support\Facades\Auth;
 
 class PageController extends Controller
 {
     public function getIndex(){
+        $slides = Slide::where('status', 1)->get();
         $new_products = Product::with('category_pro')->where('new', 1)->get();
         $top_products = Product::with('category_pro')->where('top', 1)->get();
         $sale_products = Product::with('category_pro')->where('sale_price', '<>', 0)->get();
-        return view('pages.home', compact('new_products', 'top_products', 'sale_products'));
+        return view('pages.home', compact('new_products', 'top_products', 'sale_products', 'slides'));
     }
 
     public function getSignup(){
@@ -108,6 +110,10 @@ class PageController extends Controller
             'categories' => $categories
         ]);
     }
+
+    // public function getContact(){
+    //     return view();
+    // }
 
 
 }

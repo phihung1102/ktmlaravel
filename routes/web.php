@@ -7,6 +7,7 @@ use App\Http\Controllers\ProController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\SlideController;
 use App\Http\Middleware\RoleMiddleware;
 
 
@@ -44,11 +45,21 @@ Route::prefix('admin')->group(function() {
         Route::get('/getOrderList', [OrderController::class, 'getOrderList'])->name('getOrderList');
         Route::get('/getOrderListCompleted', [OrderController::class, 'getOrderListCompleted'])->name('getOrderListCompleted');
         Route::get('/getOrderListCancelled', [OrderController::class, 'getOrderListCancelled'])->name('getOrderListCancelled');
+        Route::get('/getOrderListShipped', [OrderController::class, 'getOrderListShipped'])->name('getOrderListShipped');
+        Route::get('/getOrderListPending', [OrderController::class, 'getOrderListPending'])->name('getOrderListPending');
         Route::get('/delOrder/{id}', [OrderController::class, 'delOrder'])->name('delOrder');
         Route::get('/getOrderDetails{id}', [OrderController::class, 'getOrderDetails'])->name('getOrderDetails');
-        Route::put('/admin/orders/update-status/{id}', [OrderController::class, 'updateOrderStatus'])->name('admin.orders.updateStatus');
+        Route::put('/admin/orders/update-status/{id}', [OrderController::class, 'updateOrderStatus'])->name('updateOrderStatus');
         Route::post('/admin/orders/update-status', [OrderController::class, 'updateStatus'])->name('updateStatusOd');
 
+
+        Route::get('slides', [SlideController::class, 'index'])->name('admin.slides.index');
+        Route::get('slides/create', [SlideController::class, 'create'])->name('admin.slides.create'); 
+        Route::post('slides', [SlideController::class, 'store'])->name('admin.slides.store'); 
+        Route::get('slides/{slide}', [SlideController::class, 'show'])->name('admin.slides.show'); 
+        Route::get('slides/{slide}/edit', [SlideController::class, 'edit'])->name('admin.slides.edit');
+        Route::put('slides/{slide}', [SlideController::class, 'update'])->name('admin.slides.update');
+        Route::delete('slides/{slide}', [SlideController::class, 'destroy'])->name('admin.slides.destroy');
     });
 });
 
@@ -63,6 +74,8 @@ Route::middleware(['auth', RoleMiddleware::class. ':3'])->group(function(){
     Route::post('/showOrder', [OrderController::class, 'showOrder'])->name('showOrder');
     Route::post('/postOrder', [OrderController::class, 'postOrder'])->name('postOrder');
     Route::put('/orders/cancel/{id}', [UserController::class, 'cancelOrder'])->name('cancelOrder');
+    Route::post('/toggle-favorite', [FavoriteController::class, 'toggleFavorite'])->name('toggleFavorite')->middleware('auth');
+    // Route::get('/getContact', [PageController::class, 'getContact'])->name('getContact');
 });
 
 Route::get('/search', [PageController::class, 'search'])->name('search');
